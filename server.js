@@ -1,0 +1,27 @@
+const express = require("express");
+
+const app = express();
+
+require("dotenv").config();
+
+const connectDB = require("./db/connectDB");
+
+const dns = require("node:dns");
+dns.setServers(["1.1.1.1"]);
+
+
+
+connectDB();
+
+
+app.get("/health", (req, res)=>{
+    res.json({
+        success: true,
+        message : "Server is healthy"
+    })
+} )
+
+
+app.listen(process.env.PORT || 5000, ()=>{
+    console.log("Roxine Server is Up & Running")
+} )
