@@ -9,9 +9,15 @@ const connectDB = require("./db/connectDB");
 const dns = require("node:dns");
 dns.setServers(["1.1.1.1"]);
 
-
+app.use(express.json());
 
 connectDB();
+
+const errorHandler = require("./middlewares/errorMiddleware");
+
+app.use(errorHandler);
+
+const userRouter = require("./routes/userRoutes");
 
 
 app.get("/health", (req, res)=>{
@@ -20,6 +26,8 @@ app.get("/health", (req, res)=>{
         message : "Server is healthy"
     })
 } )
+
+app.use("/user", userRouter);
 
 
 app.listen(process.env.PORT || 5000, ()=>{
