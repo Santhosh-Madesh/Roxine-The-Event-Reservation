@@ -18,10 +18,6 @@ const connectDB = async() => {
         console.log("Database failed to connect, error : "+ error);
         process.exit(1);
 
-    } finally{
-
-        mongoose.disconnect();
-
     }
 
 }
