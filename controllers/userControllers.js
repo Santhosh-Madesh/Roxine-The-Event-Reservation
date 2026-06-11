@@ -4,13 +4,16 @@ const {
 } = require("../models/userModels");
 
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const createError  = require("http-errors");
 
 
 const createUserController = async(req, res, next) => {
 
     try{
 
-        const { name, email, password } = req.body;
+        const { name, email, password } = req.validatedData;
 
         const userExists = await retriveUser(email);
 
@@ -53,6 +56,48 @@ const createUserController = async(req, res, next) => {
 
 }
 
+
+const loginUserController = async(req, res, next) => {
+
+    try{
+
+        const { email, password } = req.validatedData;
+
+        const user = await retriveUser(email);
+
+        if(!user){
+            return next(createError(400, "Invalid email or password"));
+        }
+
+        const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+        if(!isPasswordMatch){
+            return next(createError(400, "Invalid email or password"));
+        }
+
+        const payload = {
+            userId : user.id,
+        }
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
+
+
+        res.json({
+            success: true,
+            message: "Login successful",
+            token : token
+        });
+
+
+    } catch(error){
+
+        next(error);
+
+    }
+
+}
+
 module.exports = {
     createUserController,
+    loginUserController,
 }
