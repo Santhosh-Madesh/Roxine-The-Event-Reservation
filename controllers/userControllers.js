@@ -1,6 +1,7 @@
 const {
     createUser,
     retriveUser,
+    retriveUserById,
 } = require("../models/userModels");
 
 const bcrypt = require("bcrypt");
@@ -97,7 +98,34 @@ const loginUserController = async(req, res, next) => {
 
 }
 
+const profileController = async(req, res, next) => {
+
+    try{
+
+        const userId = req.userId;
+
+        const user = await retriveUserById(userId);
+
+        if(!user){
+            return next(createError(500, "Internal server error"))
+        }
+
+        delete user.password;
+
+        res.json({
+            success: true,
+            message: "User data retrieved successfully",
+            data: user
+        })
+
+
+    } catch(error){
+        next(error);
+    }
+}
+
 module.exports = {
     createUserController,
     loginUserController,
+    profileController,
 }
