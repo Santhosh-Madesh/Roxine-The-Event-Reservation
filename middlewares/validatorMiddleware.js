@@ -5,8 +5,6 @@ const bodyValidatorMiddleware = (schema) => (req, res, next) => {
 
     const isBodyValidated = schema.safeParse(req.body);
 
-    console.log(isBodyValidated);
-
     if(isBodyValidated.success){
 
         req.validatedData = req.body;
