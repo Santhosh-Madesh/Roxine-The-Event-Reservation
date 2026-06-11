@@ -44,10 +44,13 @@ const createUserController = async(req, res, next) => {
             })
         }
 
+        const userObj = newUser.toObject();
+        delete userObj["password"];
+
         res.status(201).json({
             success: true,
             message: "New user created successfully!",
-            data : newUser
+            data : userObj
         })
 
 
