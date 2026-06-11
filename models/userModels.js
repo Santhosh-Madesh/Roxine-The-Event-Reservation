@@ -38,7 +38,24 @@ const retriveUser = async(email) => {
 
 }
 
+const retriveUserById = async(id) => {
+
+    try{
+
+        const user = await userModel.findById(id);
+
+        return user;
+
+
+    } catch(error){
+
+        console.log(`Error occured at retriveUserById model, error : ${error}`);
+        return false
+    }
+}
+
 module.exports = {
     createUser,
     retriveUser,
+    retriveUserById,
 }
