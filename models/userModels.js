@@ -54,8 +54,24 @@ const retriveUserById = async(id) => {
     }
 }
 
+const deleteUserById = async(id) => {
+
+    try{
+
+        const deletedData = await userModel.deleteOne({_id:id});
+
+        return deletedData;
+
+
+    } catch(error){
+        console.log(`Error occured at deleteUserById model, error: ${error}`);
+        return false;
+    }
+}
+
 module.exports = {
     createUser,
     retriveUser,
     retriveUserById,
+    deleteUserById,
 }
