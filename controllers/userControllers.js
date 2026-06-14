@@ -3,6 +3,7 @@ const {
     retriveUser,
     retriveUserById,
     deleteUserById,
+    changeUserPasswordById,
 } = require("../models/userModels");
 
 const bcrypt = require("bcrypt");
@@ -145,7 +146,30 @@ const deleteUserController = async(req, res, next) => {
 
 
     } catch(error){
-        nextt(error);
+        next(error);
+    }
+}
+
+const changeUserPasswordController = async(req, res, next) => {
+
+    try{
+
+        const userId = req.userId;
+        const { password } = req.body;
+
+
+        const hashedPassword = bcrypt.hash(password, 10);
+
+        const passwordChanged = await changeUserPasswordById(userId, hashedPassword);
+
+        if(!passwordChanged){
+            return createError(500, "Internal Server Error, try again");
+        }
+
+        res.status(204).send();
+
+    } catch(error){
+        next(error);
     }
 }
 
@@ -154,4 +178,5 @@ module.exports = {
     loginUserController,
     profileController,
     deleteUserController,
+    changeUserPasswordController,
 }
