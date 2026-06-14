@@ -5,6 +5,7 @@ const {
     loginUserController,
     profileController,
     deleteUserController,
+    changeUserPasswordController,
 } = require("../controllers/userControllers");
 
 const {
@@ -25,6 +26,7 @@ userRouter.post("/register", bodyValidatorMiddleware(authValidation) ,createUser
 userRouter.post("/login", bodyValidatorMiddleware(loginValidation), loginUserController);
 userRouter.get("/profile", authenticateUser ,profileController);
 userRouter.delete("/delete", authenticateUser ,deleteUserController);
+userRouter.put("/changePassword", authenticateUser, changeUserPasswordController);
 
 
 module.exports = userRouter;
