@@ -69,9 +69,25 @@ const deleteUserById = async(id) => {
     }
 }
 
+const changeUserPasswordById = async(id, password) => {
+
+    try{
+
+        const user = await userModel.findByIdAndUpdate({password: password});
+
+        return user;
+
+    } catch(error){
+        console.log(`Error occured at changeUserPassword model, error: ${error}`);
+        return false;
+    }
+
+}
+
 module.exports = {
     createUser,
     retriveUser,
     retriveUserById,
     deleteUserById,
+    changeUserPasswordById,
 }
