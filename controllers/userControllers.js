@@ -2,6 +2,7 @@ const {
     createUser,
     retriveUser,
     retriveUserById,
+    deleteUserById,
 } = require("../models/userModels");
 
 const bcrypt = require("bcrypt");
@@ -128,8 +129,29 @@ const profileController = async(req, res, next) => {
     }
 }
 
+const deleteUserController = async(req, res, next) => {
+
+    try{
+
+        const userId = req.userId;
+
+        const deletedData = await deleteUserById(userId);
+
+        if(!deletedData){
+            return next(createError(500, "Internal Server error, try again later"));
+        }
+
+        res.status(204).send();
+
+
+    } catch(error){
+        nextt(error);
+    }
+}
+
 module.exports = {
     createUserController,
     loginUserController,
     profileController,
+    deleteUserController,
 }
