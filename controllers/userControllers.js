@@ -77,7 +77,6 @@ const loginUserController = async(req, res, next) => {
         }
 
         const isPasswordMatch = await bcrypt.compare(password, user.password);
-
         if(!isPasswordMatch){
             return next(createError(400, "Invalid email or password"));
         }
@@ -158,7 +157,7 @@ const changeUserPasswordController = async(req, res, next) => {
         const { password } = req.body;
 
 
-        const hashedPassword = bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         const passwordChanged = await changeUserPasswordById(userId, hashedPassword);
 
