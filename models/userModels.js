@@ -73,7 +73,7 @@ const changeUserPasswordById = async(id, password) => {
 
     try{
 
-        const user = await userModel.findByIdAndUpdate({password: password});
+        const user = await userModel.findByIdAndUpdate(id, {password: password});
 
         return user;
 
