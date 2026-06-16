@@ -22,11 +22,6 @@ const eventScheme = new mongoose.Schema({
     photo:{
         type: String, // the string represents the directory path
     },
-    last_date:{
-        type: Date,
-        required: true,
-        // Date format 'yyyy-mm-dd'
-    },
     available_tickets:{
         type: Number,
         required: true,
@@ -42,4 +37,4 @@ const eventScheme = new mongoose.Schema({
 const eventModel = mongoose.model("event", eventScheme);
 
 
-module.export = eventModel;
+module.exports = eventModel;
