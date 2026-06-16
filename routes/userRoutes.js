@@ -19,6 +19,7 @@ const {
 const {
     authValidation,
     loginValidation,
+    passwordValidation,
 } = require("../validators/userValidator")
 
 
@@ -26,7 +27,7 @@ userRouter.post("/register", bodyValidatorMiddleware(authValidation) ,createUser
 userRouter.post("/login", bodyValidatorMiddleware(loginValidation), loginUserController);
 userRouter.get("/profile", authenticateUser ,profileController);
 userRouter.delete("/", authenticateUser ,deleteUserController);
-userRouter.put("/changePassword", authenticateUser, changeUserPasswordController);
+userRouter.put("/changePassword", bodyValidatorMiddleware(passwordValidation) ,authenticateUser, changeUserPasswordController);
 
 
 module.exports = userRouter;
