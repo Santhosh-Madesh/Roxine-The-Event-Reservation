@@ -18,6 +18,7 @@ const errorHandler = require("./middlewares/errorMiddleware");
 app.use(errorHandler);
 
 const userRouter = require("./routes/userRoutes");
+const eventOrganiserRouter = require("./routes/eventOrganiserRoutes");
 
 
 app.get("/health", (req, res)=>{
@@ -28,6 +29,7 @@ app.get("/health", (req, res)=>{
 } )
 
 app.use("/user", userRouter);
+app.use("/organiser", eventOrganiserRouter);
 
 
 app.listen(process.env.PORT || 5000, ()=>{
