@@ -11,8 +11,13 @@ const loginValidation = zod.object({
     password : zod.string().min(8, "Invalid password field")
 })
 
+const passwordValidation = zod.object({
+    password: zod.string().min(8, "Invalid password field")
+})
+
 
 module.exports = {
     authValidation,
     loginValidation,
+    passwordValidation,
 }
