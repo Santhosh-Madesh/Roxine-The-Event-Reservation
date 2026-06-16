@@ -154,7 +154,7 @@ const changeUserPasswordController = async(req, res, next) => {
     try{
 
         const userId = req.userId;
-        const { password } = req.body;
+        const { password } = req.validatedData;
 
 
         const hashedPassword = await bcrypt.hash(password, 10);
