@@ -5,8 +5,20 @@ const {
     createEventController,
 } = require("../controllers/eventOrganiserControllers");
 
+const {
+    bodyValidatorMiddleware,
+} = require("../middlewares/validatorMiddleware")
 
-router.post("/event", createEventController);
+const {
+    eventValidation,
+} = require("../validators/eventValidator");
+
+const {
+    authenticateUser,
+    authorizeOrganiser,
+} = require("../middlewares/authMiddleware")
+
+router.post("/event", authenticateUser, authorizeOrganiser, bodyValidatorMiddleware(eventValidation) ,createEventController);
 
 
 module.exports = router;
