@@ -81,8 +81,13 @@ const loginUserController = async(req, res, next) => {
             return next(createError(400, "Invalid email or password"));
         }
 
+        const organiser = user.role === "organiser" ?  true : false;
+        const admin = user.role === "admin" ? true : false;
+
         const payload = {
             userId : user.id,
+            isOrganiser: organiser,
+            isAdmin: admin
         }
 
         const token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
