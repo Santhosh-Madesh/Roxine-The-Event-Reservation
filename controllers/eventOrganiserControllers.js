@@ -12,7 +12,7 @@ const createEventController = async(req, res, next)=>{
 
     try{
 
-        const { name, date, duration, description, photo=undefined, available_tickets, cost} = req.body;
+        const { name, date, duration, description, photo=undefined, available_tickets, cost} = req.validatedData;
 
 
         const eventObject = eventObjectCreate(name, date, duration, description, available_tickets, cost, photo);
