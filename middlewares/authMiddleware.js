@@ -15,6 +15,8 @@ const authenticateUser = (req, res, next) => {
 
         const payload = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
+        req.isAdmin = payload.isAdmin;
+        req.isOrganiser = payload.isOrganiser;
         req.userId = payload.userId;
 
         next();
@@ -29,6 +31,24 @@ const authenticateUser = (req, res, next) => {
 }
 
 
+const authorizeOrganiser = (req, res, next) => {
+
+    try{
+
+        if(req.isOrganiser || req.isAdmin){
+           return next();
+        }
+
+        next(createError(403, "Unauthorize! You dont have permission to access this resource"));
+
+
+    } catch(error){
+        next(error)
+    }
+}
+
+
 module.exports = {
     authenticateUser,
+    authorizeOrganiser,
 }
