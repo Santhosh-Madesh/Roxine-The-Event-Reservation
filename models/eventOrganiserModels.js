@@ -45,6 +45,24 @@ const createEvent = async(event) => {
 }
 
 
+const retriveAllEvents = async(event) => {
+
+    try{
+
+
+        const data = await eventModel.find();
+
+        return data;
+
+
+    } catch(error){
+        console.log(`Error occured at the retriveAllEvents model, Error: ${error}`);
+        return false;
+    }
+}
+
+
 module.exports = {
     createEvent,
+    retriveAllEvents,
 }
