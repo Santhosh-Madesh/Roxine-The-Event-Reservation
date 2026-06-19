@@ -1,5 +1,6 @@
 const {
     createEvent,
+    retriveAllEvents,
 } = require("../models/eventOrganiserModels");
 
 const eventObjectCreate = require("../utils/eventObjectCreate");
@@ -37,6 +38,34 @@ const createEventController = async(req, res, next)=>{
 
 }
 
+
+const retriveAllEventController = async(req, res, next)=>{
+
+    try{
+
+        const result = await retriveAllEvents();
+        
+        if(!result && result === false){
+            return next(createError(500, "Internal Server Error"))
+        }
+
+        if(!result){
+            return next(createError(404, "Data not found"));
+        }
+
+        res.json({
+            success: true,
+            message: "Event data retrieved successfully!",
+            data : result
+        });
+
+
+    } catch(error){
+        next(error);
+    }
+}
+
 module.exports = {
     createEventController,
+    retriveAllEventController,
 }
