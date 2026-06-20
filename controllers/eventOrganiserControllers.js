@@ -1,6 +1,7 @@
 const {
     createEvent,
     retriveAllEvents,
+    retriveEventByName,
 } = require("../models/eventOrganiserModels");
 
 const eventObjectCreate = require("../utils/eventObjectCreate");
@@ -65,7 +66,31 @@ const retriveAllEventController = async(req, res, next)=>{
     }
 }
 
+const retriveEventByNameController = async(req, res, next) => {
+
+    try{
+
+        const { name } = req.validatedData;
+
+        const event = await retriveEventByName(name);
+
+        if(event.length == 0){ // Error at this line of code, the program seems to run forever at this line, stay calm, analyze, figure out and fix
+            return createError(404, "Data Not Found");
+        }
+
+        res.json({
+            success: true,
+            message: "Data retrieved successfully!",
+            data: event
+        })
+
+    } catch(error){
+        next(error);
+    }
+}
+
 module.exports = {
     createEventController,
     retriveAllEventController,
+    retriveEventByNameController,
 }

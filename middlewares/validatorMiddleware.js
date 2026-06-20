@@ -16,6 +16,31 @@ const bodyValidatorMiddleware = (schema) => (req, res, next) => {
 
 }
 
+const paramValidatorMiddleware = (schema, paramName) => (req, res, next)=>{
+
+    const paramValue = {
+        name:req.params.name,
+    }
+
+    const paramObj = {
+            [paramName]: paramValue[paramName]
+        }
+    
+    const isParamValid = schema.safeParse(
+        paramObj
+    );
+
+    if(isParamValid.success){
+
+        req.validatedData = paramObj;
+
+        return next();
+    }
+
+    next(createError(400, "Bad request, Missing fields or invalid request field values"));
+}
+
 module.exports = {
-    bodyValidatorMiddleware
+    bodyValidatorMiddleware,
+    paramValidatorMiddleware,
 }
