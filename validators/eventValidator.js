@@ -11,7 +11,12 @@ const eventValidation = zod.object({
     cost : zod.number().positive()
 })
 
+const retriveEventValidation = zod.object({
+    name: zod.string().min(5, "Invalid event name")
+})
+
 
 module.exports = {
     eventValidation,
+    retriveEventValidation,
 }
