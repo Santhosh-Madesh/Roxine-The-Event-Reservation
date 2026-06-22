@@ -2,6 +2,7 @@ const {
     createEvent,
     retriveAllEvents,
     retriveEventByName,
+    retriveEventFilter,
 } = require("../models/eventOrganiserModels");
 
 const eventObjectCreate = require("../utils/eventObjectCreate");
@@ -89,8 +90,36 @@ const retriveEventByNameController = async(req, res, next) => {
     }
 }
 
+
+const retriveEventFilterController = async(req, res, next) => {
+
+    try{
+
+        const filter = req.validatedData;
+
+        const filteredEvent = await retriveEventFilter(filter);
+
+        if(filteredEvent.length == 0){
+            return next(createError(404, "Data not found"));
+                }
+
+        res.json(
+            {
+                success: true,
+                message: "Data filtered and retrived successfully!",
+                data: filteredEvent
+            }
+        )
+
+
+    } catch(error){
+        next(error);
+    }
+}
+
 module.exports = {
     createEventController,
     retriveAllEventController,
     retriveEventByNameController,
+    retriveEventFilterController,
 }
