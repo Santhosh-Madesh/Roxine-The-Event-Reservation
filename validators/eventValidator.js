@@ -17,8 +17,8 @@ const retriveEventValidation = zod.object({
 
 const filterQueryValidation = zod.object({
     name: zod.string().min(5, "Invalid event name").optional(),
-    date: zod.iso.date().optional(),
-    cost: zod.string().default("150")
+    date: zod.iso.date().optional("2026-06-23"),
+    cost: zod.coerce.number().default(150)
 })
 
 
