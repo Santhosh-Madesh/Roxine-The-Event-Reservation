@@ -41,24 +41,12 @@ const paramValidatorMiddleware = (schema, paramName) => (req, res, next)=>{
 }
 
 const queryValidatorMiddleware = (schema) => (req, res, next)=>{
-
+    
     const validateQuery = schema.safeParse(req.query);
 
     if(validateQuery.success){
 
-        req.validatedData = {};
-
-        if(req.query.name){
-            req.validatedData.name = req.query.name;
-        }
-
-        if(req.query.date){
-            req.validatedData.date = req.query.date;
-        }
-
-        if(req.query.cost){
-            req.validatedData.cost = Number(req.query.cost);
-        }
+        req.validatedData = validateQuery.data;
 
         return next();
     }
