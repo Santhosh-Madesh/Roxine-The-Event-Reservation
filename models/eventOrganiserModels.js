@@ -75,9 +75,24 @@ const retriveEventByName = async(eventName) => {
     }
 }
 
+const retriveEventFilter = async(filter) => {
+
+    try{
+
+        const filteredEvents = await eventModel.find(filter);
+
+        return filteredEvents;
+
+    } catch(error){
+        console.log(`Error occured at the retriveEventFilter model, Error: ${error}`);
+        return false;
+    }
+}
+
 
 module.exports = {
     createEvent,
     retriveAllEvents,
     retriveEventByName,
+    retriveEventFilter,
 }
