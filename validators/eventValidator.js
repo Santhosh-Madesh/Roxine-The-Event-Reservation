@@ -15,8 +15,15 @@ const retriveEventValidation = zod.object({
     name: zod.string().min(5, "Invalid event name")
 })
 
+const filterQueryValidation = zod.object({
+    name: zod.string().min(5, "Invalid event name").optional(),
+    date: zod.iso.date().optional(),
+    cost: zod.string().default("150")
+})
+
 
 module.exports = {
     eventValidation,
     retriveEventValidation,
+    filterQueryValidation,
 }
