@@ -6,6 +6,7 @@ const {
     retriveAllEventController,
     retriveEventByNameController,
     retriveEventFilterController,
+    retrivePaginatedEventController,
 } = require("../controllers/eventOrganiserControllers");
 
 const {
@@ -18,6 +19,7 @@ const {
     eventValidation,
     retriveEventValidation,
     filterQueryValidation,
+    paginationQueryValidation,
 } = require("../validators/eventValidator");
 
 const {
@@ -29,6 +31,7 @@ router.post("/event", authenticateUser, authorizeOrganiser, bodyValidatorMiddlew
 router.get("/event", authenticateUser, retriveAllEventController);
 router.get("/event/:name", authenticateUser, paramValidatorMiddleware(retriveEventValidation, "name") ,retriveEventByNameController);
 router.get("/event/filter/query", authenticateUser, queryValidatorMiddleware(filterQueryValidation), retriveEventFilterController);
+router.get("/paginate/event", authenticateUser, queryValidatorMiddleware(paginationQueryValidation)  ,retrivePaginatedEventController);
 
 
 
