@@ -21,9 +21,14 @@ const filterQueryValidation = zod.object({
     cost: zod.coerce.number().default(150)
 })
 
+const paginationQueryValidation = zod.object({
+    page: zod.coerce.number().default(1),
+})
+
 
 module.exports = {
     eventValidation,
     retriveEventValidation,
     filterQueryValidation,
+    paginationQueryValidation,
 }
