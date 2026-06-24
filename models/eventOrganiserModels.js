@@ -89,10 +89,29 @@ const retriveEventFilter = async(filter) => {
     }
 }
 
+const retrivePaginatedEvent = async(limit, offset)=>{
+
+    try{
+        
+        const paginatedEvents = await eventModel.find().limit(limit).skip(offset);
+        
+        
+        return paginatedEvents;
+
+    } catch(error){
+
+        console.log(`Error occured at retrivePaginatedEvent model, error:${error}`);
+        return false;
+    }
+
+    
+}
+
 
 module.exports = {
     createEvent,
     retriveAllEvents,
     retriveEventByName,
     retriveEventFilter,
+    retrivePaginatedEvent,
 }
