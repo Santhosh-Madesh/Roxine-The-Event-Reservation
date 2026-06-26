@@ -27,14 +27,15 @@ const {
 const {
     authenticateUser,
     authorizeOrganiser,
+    authorizeOwner,
 } = require("../middlewares/authMiddleware")
 
 router.post("/event", authenticateUser, authorizeOrganiser, bodyValidatorMiddleware(eventValidation) ,createEventController);
 router.get("/event", authenticateUser, retriveAllEventController);
-router.get("/event/:name", authenticateUser, paramValidatorMiddleware(retriveEventValidation, "name") ,retriveEventByNameController);
+router.get("/event/:name", authenticateUser, paramValidatorMiddleware(retriveEventValidation) ,retriveEventByNameController);
 router.get("/event/filter/query", authenticateUser, queryValidatorMiddleware(filterQueryValidation), retriveEventFilterController);
 router.get("/paginate/event", authenticateUser, queryValidatorMiddleware(paginationQueryValidation)  ,retrivePaginatedEventController);
-router.delete("/event/:eventId", authenticateUser, authorizeOrganiser, paramValidatorMiddleware(eventIdValidation), deleteEventByIdController);
+router.delete("/event/:eventId", authenticateUser, authorizeOrganiser, paramValidatorMiddleware(eventIdValidation, "eventId"), authorizeOwner ,deleteEventByIdController);
 
 
 module.exports = router;
