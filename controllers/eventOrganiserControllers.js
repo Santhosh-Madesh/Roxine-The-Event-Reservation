@@ -19,9 +19,9 @@ const createEventController = async(req, res, next)=>{
 
         const { name, date, duration, description, photo=undefined, available_tickets, cost} = req.validatedData;
 
+        const ownership = req.userId;
 
-        const eventObject = eventObjectCreate(name, date, duration, description, available_tickets, cost, photo);
-
+        const eventObject = eventObjectCreate(name, date, duration, description, available_tickets, cost, photo, ownership);
 
         const event = await createEvent(eventObject);
 
@@ -32,7 +32,14 @@ const createEventController = async(req, res, next)=>{
         res.status(201).json({
             success: true,
             message: "Event data created succeessfully",
-            data: event
+            data: {
+                name: event.name,
+                date: event.date,
+                duration: event.duration,
+                description: event.description,
+                available_tickets: event.available_tickets,
+                cost: event.cost
+            }
         })
 
 
