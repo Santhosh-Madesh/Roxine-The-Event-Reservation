@@ -25,10 +25,14 @@ const paginationQueryValidation = zod.object({
     page: zod.coerce.number().positive("query must be a postitive number").default(1),
 })
 
+const eventIdValidation = zod.object({
+})
+
 
 module.exports = {
     eventValidation,
     retriveEventValidation,
     filterQueryValidation,
     paginationQueryValidation,
+    eventIdValidation,
 }

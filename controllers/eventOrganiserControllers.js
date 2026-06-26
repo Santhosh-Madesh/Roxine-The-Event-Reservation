@@ -4,6 +4,7 @@ const {
     retriveEventByName,
     retriveEventFilter,
     retrivePaginatedEvent,
+    deleteEventById,
 } = require("../models/eventOrganiserModels");
 
 const eventObjectCreate = require("../utils/eventObjectCreate");
@@ -149,10 +150,31 @@ const retrivePaginatedEventController = async(req, res, next)=>{
 }
 
 
+const deleteEventByIdController = async(req, res, next)=>{
+    
+    try{
+
+        const { eventId } = req.validatedData;
+
+        const deleteResult = await deleteEventById(eventId);
+
+
+        if(!deleteResult){
+            return next(createError(500, "Internal server error"));
+        }
+        
+        res.status(204).send();
+
+    } catch(error){
+        next(error);
+    }
+}
+
 module.exports = {
     createEventController,
     retriveAllEventController,
     retriveEventByNameController,
     retriveEventFilterController,
     retrivePaginatedEventController,
+    deleteEventByIdController,
 }
