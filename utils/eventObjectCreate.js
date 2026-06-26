@@ -1,6 +1,6 @@
 
 
-const eventObjectCreate = (name, date, duration, description, available_tickets, cost, photo=undefined) => {
+const eventObjectCreate = (name, date, duration, description, available_tickets, cost, photo=undefined, ownership) => {
 
     const event = {
         name: name,
@@ -9,7 +9,8 @@ const eventObjectCreate = (name, date, duration, description, available_tickets,
         description: description,
         available_tickets: available_tickets,
         cost: cost,
-        photo: photo
+        photo: photo,
+        ownership: ownership
     }
 
     return event;
