@@ -29,6 +29,10 @@ const eventScheme = new mongoose.Schema({
     cost:{
         type:Number,
         required:true
+    },
+    ownership:{
+        type: mongoose.Schema.Types.ObjectId,
+        required:true
     }
 },{
     timestamps:true
