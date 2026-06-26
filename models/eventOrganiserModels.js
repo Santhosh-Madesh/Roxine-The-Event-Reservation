@@ -107,6 +107,21 @@ const retrivePaginatedEvent = async(limit, offset)=>{
     
 }
 
+const deleteEventById = async(id)=>{
+
+    try{
+
+        const deletedEvent = await eventModel.deleteOne({_id:id});
+
+        return deletedEvent;
+
+
+    } catch(error){
+        console.log(`Error occurred at deleteEventById model, error:${error}`);
+        return false;
+    }
+}
+
 
 module.exports = {
     createEvent,
@@ -114,4 +129,5 @@ module.exports = {
     retriveEventByName,
     retriveEventFilter,
     retrivePaginatedEvent,
+    deleteEventById,
 }
