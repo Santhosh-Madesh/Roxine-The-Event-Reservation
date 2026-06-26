@@ -1,6 +1,11 @@
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
 
+const {
+    retriveEventById,
+} = require("../models/eventOrganiserModels");
+const { string } = require("zod");
+
 const authenticateUser = (req, res, next) => {
 
     try{
@@ -47,8 +52,34 @@ const authorizeOrganiser = (req, res, next) => {
     }
 }
 
+const authorizeOwner = async (req, res, next)=> {
+
+    try{
+
+        const userId = req.userId;
+        const { eventId } = req.validatedData;
+
+        const event = await retriveEventById(eventId);
+
+        if(!event){
+            return next(createError(404, "Data not found!"));
+        }
+
+        if(String(event.ownership) === userId){
+            return next()
+        }
+
+        next(createError(403, "Unauthorized Ownership! you are not allowed to send this request"))
+
+
+    } catch(error){
+        next(error);
+    }
+}
+
 
 module.exports = {
     authenticateUser,
     authorizeOrganiser,
+    authorizeOwner,
 }
