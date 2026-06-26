@@ -16,7 +16,9 @@ const createEvent = async(event) => {
             description: event.description,
             available_tickets: event.available_tickets,
             cost: event.cost,
-            photo: event.photo
+            photo: event.photo,
+
+            ownership: event.ownership,
         })
 
          return eventObj;
@@ -30,6 +32,8 @@ const createEvent = async(event) => {
             description: event.description,
             available_tickets: event.available_tickets,
             cost: event.cost,
+
+            ownership: event.ownership,
         })
 
          return eventObj;
