@@ -16,23 +16,13 @@ const bodyValidatorMiddleware = (schema) => (req, res, next) => {
 
 }
 
-const paramValidatorMiddleware = (schema, paramName) => (req, res, next)=>{
-
-    const paramValue = {
-        name:req.params.name,
-    }
-
-    const paramObj = {
-            [paramName]: paramValue[paramName]
-        }
+const paramValidatorMiddleware = (schema) => (req, res, next)=>{
     
-    const isParamValid = schema.safeParse(
-        paramObj
-    );
+    const isParamValid = schema.safeParse(req.params);
 
     if(isParamValid.success){
 
-        req.validatedData = paramObj;
+        req.validatedData = isParamValid.data;
 
         return next();
     }
