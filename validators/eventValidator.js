@@ -1,4 +1,5 @@
 const zod = require('zod');
+const mongoose = require('mongoose');
 
 
 const eventValidation = zod.object({
@@ -26,6 +27,10 @@ const paginationQueryValidation = zod.object({
 })
 
 const eventIdValidation = zod.object({
+    eventId: zod.string().refine(
+        (val)=>mongoose.Types.ObjectId.isValid(val),
+        "Invalid Database Id detected"
+    )
 })
 
 
