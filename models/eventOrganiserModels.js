@@ -126,6 +126,20 @@ const deleteEventById = async(id)=>{
     }
 }
 
+const retriveEventById = async(eventId)=> {
+
+    try{
+
+        const eventData = await eventModel.findOne({_id:eventId});
+
+        return eventData;
+
+    }catch(error){
+        console.log(`Error occurred at the retriveEventById model, error:${error}`);
+        return false;
+    }
+}
+
 
 module.exports = {
     createEvent,
@@ -134,4 +148,5 @@ module.exports = {
     retriveEventFilter,
     retrivePaginatedEvent,
     deleteEventById,
+    retriveEventById,
 }
