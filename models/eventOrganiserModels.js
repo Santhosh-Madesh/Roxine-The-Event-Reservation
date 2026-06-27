@@ -140,6 +140,46 @@ const retriveEventById = async(eventId)=> {
     }
 }
 
+const updateEventById = async(eventId, event)=>{
+
+    try{
+
+        if(event.photo){
+           const updatedEvent =  await eventModel.findByIdAndUpdate(eventId, {
+            name: event.name,
+            date: event.date,
+            duration: event.duration,
+            description: event.description,
+            available_tickets: event.available_tickets,
+            cost: event.cost,
+            photo: event.photo,
+
+            ownership: event.ownership,
+        })
+
+            return updatedEvent;
+        } else {
+            const updatedEvent = await eventModel.findByIdAndUpdate(eventId, {
+            name: event.name,
+            date: event.date,
+            duration: event.duration,
+            description: event.description,
+            available_tickets: event.available_tickets,
+            cost: event.cost,
+
+            ownership: event.ownership,
+        })
+
+            return updatedEvent
+        }
+        
+
+    } catch(error){
+        console.log(`Error occurred at the updateEventById model, error:${error}`);
+        return false;
+    }
+}
+
 
 module.exports = {
     createEvent,
@@ -149,4 +189,5 @@ module.exports = {
     retrivePaginatedEvent,
     deleteEventById,
     retriveEventById,
+    updateEventById,
 }
