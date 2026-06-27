@@ -57,7 +57,7 @@ const authorizeOwner = async (req, res, next)=> {
     try{
 
         const userId = req.userId;
-        const { eventId } = req.validatedData;
+        const { eventId } = req.validatedParamData;
 
         const event = await retriveEventById(eventId);
 
