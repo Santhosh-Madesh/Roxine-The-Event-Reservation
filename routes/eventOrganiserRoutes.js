@@ -8,6 +8,7 @@ const {
     retriveEventFilterController,
     retrivePaginatedEventController,
     deleteEventByIdController,
+    updateEventByIdController,
 } = require("../controllers/eventOrganiserControllers");
 
 const {
@@ -35,7 +36,7 @@ router.get("/event", authenticateUser, retriveAllEventController);
 router.get("/event/:name", authenticateUser, paramValidatorMiddleware(retriveEventValidation) ,retriveEventByNameController);
 router.get("/event/filter/query", authenticateUser, queryValidatorMiddleware(filterQueryValidation), retriveEventFilterController);
 router.get("/paginate/event", authenticateUser, queryValidatorMiddleware(paginationQueryValidation)  ,retrivePaginatedEventController);
-router.delete("/event/:eventId", authenticateUser, authorizeOrganiser, paramValidatorMiddleware(eventIdValidation, "eventId"), authorizeOwner ,deleteEventByIdController);
-
+router.delete("/event/:eventId", authenticateUser, authorizeOrganiser, paramValidatorMiddleware(eventIdValidation), authorizeOwner ,deleteEventByIdController);
+router.put("/event/:eventId", authenticateUser, authorizeOrganiser, paramValidatorMiddleware(eventIdValidation), authorizeOwner, bodyValidatorMiddleware(eventValidation), updateEventByIdController);
 
 module.exports = router;
