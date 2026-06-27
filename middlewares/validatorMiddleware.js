@@ -7,7 +7,7 @@ const bodyValidatorMiddleware = (schema) => (req, res, next) => {
 
     if(isBodyValidated.success){
 
-        req.validatedData = req.body;
+        req.validatedBodyData = req.body;
 
         return next();
     }
@@ -22,7 +22,7 @@ const paramValidatorMiddleware = (schema) => (req, res, next)=>{
 
     if(isParamValid.success){
 
-        req.validatedData = isParamValid.data;
+        req.validatedParamData = isParamValid.data;
 
         return next();
     }
