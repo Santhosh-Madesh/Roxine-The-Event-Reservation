@@ -16,7 +16,7 @@ const createUserController = async(req, res, next) => {
 
     try{
 
-        const { name, email, password } = req.validatedData;
+        const { name, email, password } = req.validatedBodyData;
 
         const userExists = await retriveUser(email);
 
@@ -68,7 +68,7 @@ const loginUserController = async(req, res, next) => {
 
     try{
 
-        const { email, password } = req.validatedData;
+        const { email, password } = req.validatedBodyData;
 
         const user = await retriveUser(email);
 
@@ -125,7 +125,12 @@ const profileController = async(req, res, next) => {
         res.json({
             success: true,
             message: "User data retrieved successfully",
-            data: user
+            data: {
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                active: user.active
+            }
         })
 
 
@@ -159,7 +164,7 @@ const changeUserPasswordController = async(req, res, next) => {
     try{
 
         const userId = req.userId;
-        const { password } = req.validatedData;
+        const { password } = req.validatedBodyData;
 
 
         const hashedPassword = await bcrypt.hash(password, 10);
