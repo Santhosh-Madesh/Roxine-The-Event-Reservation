@@ -1,6 +1,6 @@
 
 
-const generateBill = (no_of_tickets, cost_per_ticket, tax, platform_fee) =>{
+const generateBill = (no_of_tickets, cost_per_ticket, tax, platform_fee, payment_status="not paid") =>{
 
     const total_fee = (no_of_tickets*cost_per_ticket) + tax + platform_fee;
 
@@ -10,7 +10,7 @@ const generateBill = (no_of_tickets, cost_per_ticket, tax, platform_fee) =>{
         tax: tax,
         platform_fee: platform_fee,
         total_fee : total_fee,
-        payment_status: "not paid"
+        payment_status: payment_status,
     }
 
     return billData;
