@@ -6,9 +6,11 @@ const {
     retrivePaginatedEvent,
     deleteEventById,
     updateEventById,
+    retriveEventById,
 } = require("../models/eventOrganiserModels");
 
 const eventObjectCreate = require("../utils/eventObjectCreate");
+const generateBill = require("../utils/generateBill");
 
 const createError = require("http-errors");
 
@@ -204,6 +206,37 @@ const updateEventByIdController = async(req, res, next)=>{
     }
 }
 
+const generateBillController = async(req, res, next)=>{
+
+    try{
+
+        const { event_id, no_of_tickets } = req.validatedBodyData;
+
+        const event = await retriveEventById(event_id);
+
+        if(!event){
+            return next(creatError(400, "Bad request! provide appropriate data"));
+        }
+
+        const cost_per_ticket = event.cost;
+        const tax = 100;
+        const platform_fee = 100;
+
+        const billData = generateBill(no_of_tickets, cost_per_ticket, tax, platform_fee);
+
+        res.json({
+            success: true,
+            message: "Bill generated successfully!",
+            data: billData
+        })
+
+
+
+    } catch(error){
+        next(error);
+    }
+}
+
 module.exports = {
     createEventController,
     retriveAllEventController,
@@ -212,4 +245,5 @@ module.exports = {
     retrivePaginatedEventController,
     deleteEventByIdController,
     updateEventByIdController,
+    generateBillController,
 }
