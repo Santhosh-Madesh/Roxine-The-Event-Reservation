@@ -29,8 +29,16 @@ const paginationQueryValidation = zod.object({
 const eventIdValidation = zod.object({
     eventId: zod.string().refine(
         (val)=>mongoose.Types.ObjectId.isValid(val),
-        "Invalid Database Id detected"
+        "Invalid event Id detected"
     )
+})
+
+const billReqValidation = zod.object({
+    event_id: zod.string().refine(
+        (val)=>mongoose.Types.ObjectId.isValid(val),
+        "Invalid event Id detected"
+    ),
+    no_of_tickets: zod.number().positive().default(1),
 })
 
 
@@ -40,4 +48,5 @@ module.exports = {
     filterQueryValidation,
     paginationQueryValidation,
     eventIdValidation,
+    billReqValidation,
 }
