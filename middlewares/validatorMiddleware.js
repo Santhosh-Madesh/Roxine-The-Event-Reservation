@@ -7,7 +7,7 @@ const bodyValidatorMiddleware = (schema) => (req, res, next) => {
 
     if(isBodyValidated.success){
 
-        req.validatedBodyData = req.body;
+        req.validatedBodyData = isBodyValidated.data;
 
         return next();
     }
