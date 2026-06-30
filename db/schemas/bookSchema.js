@@ -6,6 +6,15 @@ const bookSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required:true,
     },
+    user_id:{
+        type: mongoose.Schema.Types.ObjectId,
+        required:true,
+    },
+    tickets:{
+        type: Number,
+        required:true,
+        default:1
+    },
     status:{
         type: String,
         enum: ["not booked", "booked", "cancelled"],
