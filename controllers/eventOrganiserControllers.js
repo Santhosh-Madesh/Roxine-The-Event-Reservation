@@ -18,7 +18,7 @@ const createEventController = async(req, res, next)=>{
 
     try{
 
-        const { name, date, duration, description, photo=undefined, available_tickets, cost} = req.validatedData;
+        const { name, date, duration, description, photo=undefined, available_tickets, cost} = req.validatedBodyData;
 
         const ownership = req.userId;
 
@@ -105,7 +105,7 @@ const retriveEventFilterController = async(req, res, next) => {
 
     try{
 
-        const filter = req.validatedData;
+        const filter = req.validatedQueryData;
 
         const filteredEvent = await retriveEventFilter(filter);
 
@@ -132,7 +132,7 @@ const retrivePaginatedEventController = async(req, res, next)=>{
 
     try{
 
-        const { page } = req.validatedData;
+        const { page } = req.validatedParamData;
 
         const limit = 10;
         const offset = (page-1)*limit;
@@ -182,7 +182,6 @@ const updateEventByIdController = async(req, res, next)=>{
 
     try{
 
-        console.log(req.validatedData);
         
         const {  name, date, duration, description, photo=undefined, available_tickets, cost} = req.validatedBodyData;
         const { eventId } = req.validatedParamData;
