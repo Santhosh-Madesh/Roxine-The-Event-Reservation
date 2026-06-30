@@ -10,6 +10,7 @@ const {
     deleteEventByIdController,
     updateEventByIdController,
     generateBillController,
+    bookTicketsController,
 } = require("../controllers/eventOrganiserControllers");
 
 const {
@@ -25,6 +26,7 @@ const {
     paginationQueryValidation,
     eventIdValidation,
     billReqValidation,
+    bookValidation,
 } = require("../validators/eventValidator");
 
 const {
@@ -41,5 +43,6 @@ router.get("/paginate/event", authenticateUser, queryValidatorMiddleware(paginat
 router.delete("/event/:eventId", authenticateUser, authorizeOrganiser, paramValidatorMiddleware(eventIdValidation), authorizeOwner ,deleteEventByIdController);
 router.put("/event/:eventId", authenticateUser, authorizeOrganiser, paramValidatorMiddleware(eventIdValidation), authorizeOwner, bodyValidatorMiddleware(eventValidation), updateEventByIdController);
 router.post("/event/bill", authenticateUser, bodyValidatorMiddleware(billReqValidation) ,generateBillController);
+router.post("/event/payment", authenticateUser, bodyValidatorMiddleware(bookValidation) ,bookTicketsController);
 
 module.exports = router;
