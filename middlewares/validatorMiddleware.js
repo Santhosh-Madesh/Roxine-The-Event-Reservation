@@ -36,7 +36,7 @@ const queryValidatorMiddleware = (schema) => (req, res, next)=>{
 
     if(validateQuery.success){
 
-        req.validatedData = validateQuery.data;
+        req.validatedQueryData = validateQuery.data;
 
         return next();
     }
