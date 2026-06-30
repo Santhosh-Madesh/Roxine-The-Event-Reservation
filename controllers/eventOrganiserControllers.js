@@ -237,6 +237,48 @@ const generateBillController = async(req, res, next)=>{
     }
 }
 
+const bookTicketsController = async(req, res, next)=>{
+
+    try{
+
+        const { event_id, no_of_tickets, amount } = req.validatedBodyData;
+
+        const event = await retriveEventById(event_id);
+
+        if(!event){
+            return next(createError(400, "Bad request! provide appropriate data"));
+        }
+
+        const tax = 100;
+        const platform_fee = 100;
+
+        const billObj = generateBill(no_of_tickets, event.cost, tax, platform_fee);
+
+        if(amount != billObj.total_fee){
+            return next(createError(400, "Bad request! provide appropriate data"));
+        }
+
+        billObj.payment_status = "paid";
+
+        res.json({
+            success: true,
+            message: "Tickets booked for the event successfully!",
+            data:{
+                event_data:{
+                    name: event.name,
+                    description: event.description,
+                    duration: event.duration,
+                    date: event.date
+                },
+                bill_data:billObj,
+            }
+        })
+
+    }catch(error){
+        next(error);
+    }
+} 
+
 module.exports = {
     createEventController,
     retriveAllEventController,
@@ -246,4 +288,5 @@ module.exports = {
     deleteEventByIdController,
     updateEventByIdController,
     generateBillController,
+    bookTicketsController,
 }
