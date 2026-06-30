@@ -41,6 +41,15 @@ const billReqValidation = zod.object({
     no_of_tickets: zod.number().positive().default(1),
 })
 
+const bookValidation = zod.object({
+    event_id: zod.string().refine(
+        (val)=>mongoose.Types.ObjectId.isValid(val),
+        "Invalid event Id detected"
+    ),
+    no_of_tickets: zod.number().positive().default(1),
+    amount: zod.number().positive()
+})
+
 
 module.exports = {
     eventValidation,
@@ -49,4 +58,5 @@ module.exports = {
     paginationQueryValidation,
     eventIdValidation,
     billReqValidation,
+    bookValidation
 }
