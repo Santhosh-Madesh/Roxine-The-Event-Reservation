@@ -23,7 +23,8 @@ const filterQueryValidation = zod.object({
 })
 
 const paginationQueryValidation = zod.object({
-    page: zod.coerce.number().positive("query must be a postitive number").default(1),
+    offset: zod.coerce.number().nonnegative().default(0),
+    limit: zod.coerce.number().positive("query must be a postitive number").default(1),
 })
 
 const eventIdValidation = zod.object({
