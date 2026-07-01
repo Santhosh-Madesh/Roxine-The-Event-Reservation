@@ -180,6 +180,20 @@ const updateEventById = async(eventId, event)=>{
     }
 }
 
+const getEventsByNamePattern = async(nameSearch) => {
+
+    try{
+
+        const events = await eventModel.find({ name: new RegExp(nameSearch, 'i')});
+
+        return events;
+
+    } catch(error) {
+        console.log(`Error occurred at the getEventsByNamePatern model, error:${error}`);
+        return false;
+    }
+}
+
 
 module.exports = {
     createEvent,
@@ -190,4 +204,5 @@ module.exports = {
     deleteEventById,
     retriveEventById,
     updateEventById,
+    getEventsByNamePattern,
 }
