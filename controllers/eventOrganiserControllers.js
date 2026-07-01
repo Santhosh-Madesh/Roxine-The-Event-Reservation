@@ -134,18 +134,24 @@ const retrivePaginatedEventController = async(req, res, next)=>{
 
     try{
 
-        const { page } = req.validatedQueryData;
+        const { offset, limit } = req.validatedQueryData;
 
-        const limit = 10;
-        const offset = (page-1)*limit;
 
         const paginatedData = await retrivePaginatedEvent(limit, offset);
 
         const url = req.url.split("?");
 
-        const next_url = `${req.protocol}://${req.host}${req.baseUrl}${url[0]}?page=${page+1}`;
+        const next_url = `${req.protocol}://${req.host}${req.baseUrl}${url[0]}?offset=${offset+limit}&limit=${limit}`;
 
-        console.log(next_url);
+        let prev_url = `${req.protocol}://${req.host}${req.baseUrl}${url[0]}?offset=${offset-limit}&limit=${limit}`;
+
+        if(offset < limit){
+            prev_url = `${req.protocol}://${req.host}${req.baseUrl}${url[0]}?offset=${0}&limit=${limit}`;
+        }
+
+        if(offset === 0){
+            prev_url = null;
+        }
 
         if(paginatedData.length == 0){
             return next(createError(404, "Data not found"))
@@ -157,7 +163,7 @@ const retrivePaginatedEventController = async(req, res, next)=>{
             success: true,
             message: "Retrived paginated data successfully",
             data: paginatedData,
-            prev: page == 1 ? null : `/paginate/event?page=${page-1}`,
+            prev: prev_url,
             next: next_url
         })
 
