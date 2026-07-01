@@ -51,6 +51,10 @@ const bookValidation = zod.object({
     amount: zod.number().positive()
 })
 
+const searchValidation = zod.object({
+    search: zod.string().regex(/^[a-zA-Z0-9]+$/)
+})
+
 
 module.exports = {
     eventValidation,
@@ -59,5 +63,6 @@ module.exports = {
     paginationQueryValidation,
     eventIdValidation,
     billReqValidation,
-    bookValidation
+    bookValidation,
+    searchValidation,
 }
