@@ -7,6 +7,7 @@ const {
     deleteEventById,
     updateEventById,
     retriveEventById,
+    getEventsByNamePattern,
 } = require("../models/eventOrganiserModels");
 
 const eventObjectCreate = require("../utils/eventObjectCreate");
@@ -293,6 +294,30 @@ const bookTicketsController = async(req, res, next)=>{
     }
 } 
 
+const searchEventByNameController = async(req, res, next) => {
+
+    try{
+
+        const { search } = req.validatedQueryData;
+
+        const events = await getEventsByNamePattern(search);
+
+        if(!events){
+            return next(createError(404, "Data not found!"));
+        }
+
+        res.json({
+            success: true,
+            message: "Data retrived successfully!",
+            data: events
+        })
+
+
+    } catch(error) {
+        next(error);
+    }
+}
+
 module.exports = {
     createEventController,
     retriveAllEventController,
@@ -303,4 +328,5 @@ module.exports = {
     updateEventByIdController,
     generateBillController,
     bookTicketsController,
+    searchEventByNameController,
 }
