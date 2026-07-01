@@ -134,23 +134,31 @@ const retrivePaginatedEventController = async(req, res, next)=>{
 
     try{
 
-        const { page } = req.validatedParamData;
+        const { page } = req.validatedQueryData;
 
         const limit = 10;
         const offset = (page-1)*limit;
 
         const paginatedData = await retrivePaginatedEvent(limit, offset);
 
+        const url = req.url.split("?");
+
+        const next_url = `${req.protocol}://${req.host}${req.baseUrl}${url[0]}?page=${page+1}`;
+
+        console.log(next_url);
+
         if(paginatedData.length == 0){
             return next(createError(404, "Data not found"))
         }
+
+        
 
         res.json({
             success: true,
             message: "Retrived paginated data successfully",
             data: paginatedData,
             prev: page == 1 ? null : `/paginate/event?page=${page-1}`,
-            next: `/paginate/event?page=${page+1}`
+            next: next_url
         })
 
 
