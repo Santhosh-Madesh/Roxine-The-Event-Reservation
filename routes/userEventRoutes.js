@@ -7,6 +7,7 @@ const {
     retrivePaginatedEventController,
     generateBillController,
     bookTicketsController,
+    searchEventByNameController,
 } = require("../controllers/eventOrganiserControllers")
 
 const {
@@ -21,6 +22,7 @@ const {
     paginationQueryValidation,
     billReqValidation,
     bookValidation,
+    searchValidation,
 } = require("../validators/eventValidator");
 
 const {
@@ -34,5 +36,6 @@ router.get("/filter/query", authenticateUser, queryValidatorMiddleware(filterQue
 router.get("/paginate/event", authenticateUser, queryValidatorMiddleware(paginationQueryValidation)  ,retrivePaginatedEventController);
 router.post("/bill", authenticateUser, bodyValidatorMiddleware(billReqValidation) ,generateBillController);
 router.post("/payment", authenticateUser, bodyValidatorMiddleware(bookValidation) ,bookTicketsController);
+router.get("/filter/search", authenticateUser, queryValidatorMiddleware(searchValidation), searchEventByNameController);
 
 module.exports = router;
