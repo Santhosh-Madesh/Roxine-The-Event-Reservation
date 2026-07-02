@@ -10,6 +10,10 @@ const {
     getEventsByNamePattern,
 } = require("../models/eventOrganiserModels");
 
+const {
+    createOrgRequest,
+} = require("../models/organisationModels");
+
 const eventObjectCreate = require("../utils/eventObjectCreate");
 const generateBill = require("../utils/generateBill");
 
@@ -318,6 +322,33 @@ const searchEventByNameController = async(req, res, next) => {
     }
 }
 
+const requestOrganisationController = async(req, res, next)=>{
+
+    try{
+
+        const { name } = req.validatedBodyData;
+        const userId = req.userId;
+
+        const organisation = await createOrgRequest(name, userId);
+
+        if(!organisation){
+            return next(createError(500, "Internal server error"));
+        }
+
+        res.status(201).json({
+            success: true,
+            message: "Request submitted successfully!",
+            data: {
+                name: organisation.name,
+                status: organisation.status
+            }
+        })
+
+    } catch(error) {
+        next(error);
+    }
+} 
+
 module.exports = {
     createEventController,
     retriveAllEventController,
@@ -329,4 +360,5 @@ module.exports = {
     generateBillController,
     bookTicketsController,
     searchEventByNameController,
+    requestOrganisationController,
 }
