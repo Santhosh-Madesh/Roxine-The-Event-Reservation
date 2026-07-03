@@ -13,6 +13,7 @@ const {
 const {
     createOrgRequest,
     retriveOrgByUserId,
+    updateOrgByUserId,
 } = require("../models/organisationModels");
 
 const eventObjectCreate = require("../utils/eventObjectCreate");
@@ -377,6 +378,25 @@ const organisationStatusController = async(req, res, next) => {
     }
 }
 
+const updateOrganisationRequest = async(req, res, next)=> {
+
+    try{
+
+        const { newObj, userId } = req.validatedBodyData;
+
+        const updatedOrg = await updateOrgByUserId(userId, newObj);
+
+        if(!updatedOrg){
+            return next(createError(500, "Internal server error"));
+        }
+
+        res.status(204).send();
+
+    } catch(error) {
+        next(error);
+    }
+}
+
 module.exports = {
     createEventController,
     retriveAllEventController,
@@ -390,4 +410,5 @@ module.exports = {
     searchEventByNameController,
     requestOrganisationController,
     organisationStatusController,
+    updateOrganisationRequest,
 }
