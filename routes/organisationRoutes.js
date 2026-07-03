@@ -2,6 +2,8 @@ const router = require("express").Router();
 
 const {
     requestOrganisationController,
+    organisationStatusController,
+    
 } = require("../controllers/eventOrganiserControllers");
 
 const {
@@ -18,6 +20,6 @@ const {
 
 
 router.post("/request", authenticateUser, bodyValidatorMiddleware(organisationReqValidation), requestOrganisationController);
-
+router.get("/request/status", authenticateUser, organisationStatusController);
 
 module.exports = router;
