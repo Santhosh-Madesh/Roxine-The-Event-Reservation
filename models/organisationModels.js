@@ -20,7 +20,22 @@ const createOrgRequest = async(name, userId) => {
     }
 }
 
+const retriveOrgByUserId = async(userId) => {
+
+    try{
+
+        const organisationRequest = await organizationModel.findOne({user_id:userId});
+
+        return organisationRequest;
+
+    } catch (error) {
+        console.log(`Error occurred at retriveOrgById, error:${error}`);
+        return false;
+    }
+}
+
 
 module.exports = {
     createOrgRequest,
+    retriveOrgByUserId,
 }
