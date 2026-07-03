@@ -12,6 +12,7 @@ const {
 
 const {
     createOrgRequest,
+    retriveOrgByUserId,
 } = require("../models/organisationModels");
 
 const eventObjectCreate = require("../utils/eventObjectCreate");
@@ -349,6 +350,33 @@ const requestOrganisationController = async(req, res, next)=>{
     }
 } 
 
+const organisationStatusController = async(req, res, next) => {
+
+    try{
+
+        const userId = req.userId;
+
+        const org = await retriveOrgByUserId(userId);
+
+        if(!org){
+            return next(createError(404, "Data not found"));
+        }
+
+        const status = org.status;
+
+        res.json({
+            success: true,
+            message: "Request status retrived successfully",
+            data:{
+                status: status
+            }
+        })
+
+    } catch(error){
+        next(error);
+    }
+}
+
 module.exports = {
     createEventController,
     retriveAllEventController,
@@ -361,4 +389,5 @@ module.exports = {
     bookTicketsController,
     searchEventByNameController,
     requestOrganisationController,
+    organisationStatusController,
 }
