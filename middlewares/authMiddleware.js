@@ -4,6 +4,11 @@ const createError = require("http-errors");
 const {
     retriveEventById,
 } = require("../models/eventOrganiserModels");
+
+const {
+    retriveOrgByUserId,
+} = require("../models/organisationModels");
+
 const { string } = require("zod");
 
 const authenticateUser = (req, res, next) => {
@@ -93,10 +98,38 @@ const authorizeOwner = async (req, res, next)=> {
     }
 }
 
+const authorizeOrganisation = async(req, res, next) =>{
+    try{
+
+        const userId = req.userId;
+
+        const organisation = await retriveOrgByUserId(userId);
+
+        if(req.isAdmin){
+            return next();
+        }
+
+        if(!organisation){
+            return next(createError(403, "Unauthorized! you do not have permission to access the url"))
+        }
+
+        if(!organisation.status === "accepted"){
+            return next(createError(403, "Unauthorized! you do not have permission to access the url"))     
+        }
+
+        next();
+
+
+    } catch(error){
+        next(error);
+    }
+}
+
 
 module.exports = {
     authenticateUser,
     authorizeOrganiser,
     authorizeOwner,
-    authorizeAdmin
+    authorizeAdmin,
+    authorizeOrganisation,
 }
