@@ -35,7 +35,22 @@ const retriveOrgByUserId = async(userId) => {
 }
 
 
+const updateOrgByUserId = async(userId, newData) => {
+
+    try{
+
+        const updatedData = await organizationModel.updateOne({user_id:userId}, newData);
+
+        return updatedData;
+
+    } catch(error){
+        console.log(`Error occurred at updateOrgByUserId, error:${error}`);
+        return false;
+    }
+}
+
 module.exports = {
     createOrgRequest,
     retriveOrgByUserId,
+    updateOrgByUserId,
 }
