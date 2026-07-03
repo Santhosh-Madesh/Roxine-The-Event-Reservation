@@ -23,7 +23,7 @@ const authenticateUser = (req, res, next) => {
         req.isAdmin = payload.isAdmin;
         req.isOrganiser = payload.isOrganiser;
         req.userId = payload.userId;
-
+        
         next();
 
 
@@ -41,6 +41,22 @@ const authorizeOrganiser = (req, res, next) => {
     try{
 
         if(req.isOrganiser || req.isAdmin){
+           return next();
+        }
+
+        next(createError(403, "Unauthorize! You dont have permission to access this resource"));
+
+
+    } catch(error){
+        next(error)
+    }
+}
+
+const authorizeAdmin = (req, res, next) => {
+
+    try{
+
+        if(req.isAdmin){
            return next();
         }
 
@@ -82,4 +98,5 @@ module.exports = {
     authenticateUser,
     authorizeOrganiser,
     authorizeOwner,
+    authorizeAdmin
 }
