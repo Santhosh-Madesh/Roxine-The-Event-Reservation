@@ -26,6 +26,7 @@ const eventObjectCreate = require("../utils/eventObjectCreate");
 const generateBill = require("../utils/generateBill");
 
 const createError = require("http-errors");
+const eventModel = require("../db/schemas/eventSchema");
 
 
 
@@ -276,6 +277,10 @@ const bookTicketsController = async(req, res, next)=>{
             return next(createError(400, "Bad request! provide appropriate data"));
         }
 
+        if( event.available_tickets < no_of_tickets ){
+            return next(createError(400, "Bad request! provide appropriate data"));
+        }
+
         const tax = 100;
         const platform_fee = 100;
 
@@ -299,6 +304,22 @@ const bookTicketsController = async(req, res, next)=>{
         const book = await createBook(bookObj);
 
         if(!book){
+            return next(createError(500, "Internal server error"));
+        }
+
+        const newData = {
+            name: event.name,
+            date: event.date,
+            duration: event.duration,
+            description: event.description,
+            available_tickets: event.available_tickets - no_of_tickets,
+            cost: event.cost,
+            ownership: event.ownership
+        }
+
+        const updatedEvent = await updateEventById(event_id, newData);
+
+        if(!updatedEvent){
             return next(createError(500, "Internal server error"));
         }
 
