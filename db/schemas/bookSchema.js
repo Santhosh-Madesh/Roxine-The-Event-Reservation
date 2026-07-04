@@ -15,10 +15,10 @@ const bookSchema = new mongoose.Schema({
         required:true,
         default:1
     },
-    status:{
+    token:{
         type: String,
-        enum: ["not booked", "booked", "cancelled"],
-        default: "not booked"
+        unique: true,
+        required: true,
     },
     active:{
         type: Boolean,
