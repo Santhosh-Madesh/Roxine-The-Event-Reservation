@@ -16,6 +16,12 @@ const {
     updateOrgByUserId,
 } = require("../models/organisationModels");
 
+const {
+    createBook,
+} = require("../models/bookModels");
+
+
+const generateToken = require("../utils/generateToken");
 const eventObjectCreate = require("../utils/eventObjectCreate");
 const generateBill = require("../utils/generateBill");
 
@@ -281,6 +287,21 @@ const bookTicketsController = async(req, res, next)=>{
 
         billObj.payment_status = "paid";
 
+        const token = generateToken();
+
+        const bookObj = {
+            eventId: event_id,
+            userId: req.userId,
+            tickets: billObj.tickets,
+            token: token
+        }
+
+        const book = await createBook(bookObj);
+
+        if(!book){
+            return next(createError(500, "Internal server error"));
+        }
+
         res.json({
             success: true,
             message: "Tickets booked for the event successfully!",
@@ -292,6 +313,9 @@ const bookTicketsController = async(req, res, next)=>{
                     date: event.date
                 },
                 bill_data:billObj,
+                bookData:{
+                    token: book.token
+                }
             }
         })
 
