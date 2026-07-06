@@ -4,7 +4,7 @@ This project is a Node.js + Express backend for event browsing, ticket billing, 
 
 ## Base URL
 
-- Local development: <will_be_revealed_soon_lol>
+- deployed url: https://roxine-the-event-reservation.vercel.app/
 - The server also exposes a health endpoint at /health.
 
 ## Environment Variables
