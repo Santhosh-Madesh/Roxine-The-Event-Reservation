@@ -4,6 +4,18 @@ const app = express();
 
 require("dotenv").config();
 
+const cors = require("cors");
+
+const corsOptions = {
+    origin : "http://localhost:5173/",
+    methods : ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders : ['Content-Type', 'Authorization'],
+    credentials : true,
+    optionsSuccessStatus : 200
+}
+
+app.use(cors(corsOptions))
+
 const connectDB = require("./db/connectDB");
 
 const dns = require("node:dns");
