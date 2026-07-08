@@ -9,9 +9,7 @@ const cors = require("cors");
 const corsOptions = {
     origin : "https://roxine-frontend.vercel.app",
     methods : ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders : ['Content-Type', 'Authorization'],
     credentials : true,
-    optionsSuccessStatus : 200
 }
 
 app.use(cors(corsOptions))
