@@ -29,6 +29,8 @@ const {
     authenticateUser,
 } = require("../middlewares/authMiddleware")
 
+const slidingWindowAuthLimiter = require("../rateLimiters/slidingWindowLimit");
+
 
 router.get("/", authenticateUser, retriveAllEventController);
 router.get("/:name", authenticateUser, paramValidatorMiddleware(retriveEventValidation) ,retriveEventByNameController);
@@ -36,6 +38,6 @@ router.get("/filter/query", authenticateUser, queryValidatorMiddleware(filterQue
 router.get("/paginate/event", authenticateUser, queryValidatorMiddleware(paginationQueryValidation)  ,retrivePaginatedEventController);
 router.post("/bill", authenticateUser, bodyValidatorMiddleware(billReqValidation) ,generateBillController);
 router.post("/payment", authenticateUser, bodyValidatorMiddleware(bookValidation) ,bookTicketsController);
-router.get("/filter/search", authenticateUser, queryValidatorMiddleware(searchValidation), searchEventByNameController);
+router.get("/filter/search", slidingWindowAuthLimiter, authenticateUser, queryValidatorMiddleware(searchValidation), searchEventByNameController);
 
 module.exports = router;
