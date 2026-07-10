@@ -34,7 +34,23 @@ const createEventController = async(req, res, next)=>{
 
     try{
 
-        const { name, date, duration, description, photo=undefined, available_tickets, cost} = req.validatedBodyData;
+        let photo = undefined;
+
+        if(req.files && Object.keys(req.files).length != 0){
+
+            const coverImage = req.files.coverImage;
+
+            const path = __dirname + "/coverImage/"+ coverImage.name;
+
+            coverImage.mv(path, (error)=>{
+                console.log(`Error occurred ${error}`);
+            })
+
+            photo = path;
+        }
+
+        const { name, date, duration, description, available_tickets, cost} = req.validatedBodyData;
+
 
         const ownership = req.userId;
 
