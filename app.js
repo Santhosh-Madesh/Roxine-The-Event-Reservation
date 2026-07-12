@@ -1,0 +1,53 @@
+const express = require("express");
+
+const app = express();
+
+app.set('trust proxy', true);
+
+require("dotenv").config();
+
+const cors = require("cors");
+
+const corsOptions = {
+    origin : "https://roxine-frontend.vercel.app",
+    methods : ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials : true,
+}
+
+app.use(cors(corsOptions))
+
+const connectDB = require("./db/connectDB");
+
+const dns = require("node:dns");
+dns.setServers(["1.1.1.1"]);
+
+app.use(express.json());
+
+connectDB();
+
+const errorHandler = require("./middlewares/errorMiddleware");
+
+app.use(errorHandler);
+
+const userRouter = require("./routes/userRoutes");
+const eventOrganiserRouter = require("./routes/eventOrganiserRoutes");
+const userEventRouter = require("./routes/userEventRoutes");
+const organisationRouter = require("./routes/organisationRoutes");
+const organisationOrganiserRouter = require("./routes/organisationUserRoutes");
+
+
+app.get("/health", (req, res)=>{
+    res.json({
+        success: true,
+        message : "Server is healthy"
+    })
+} )
+
+app.use("/user", userRouter);
+app.use("/organiser", eventOrganiserRouter);
+app.use("/event", userEventRouter);
+app.use("/organisation", organisationRouter);
+app.use("/organisation", organisationOrganiserRouter);
+
+
+module.exports = app;
