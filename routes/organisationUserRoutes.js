@@ -29,5 +29,5 @@ router.delete("/organiser", authenticateUser, authorizeOrganisation, deleteOrgan
 
 
 
-
+module.exports = router;
 
