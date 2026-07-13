@@ -22,7 +22,7 @@ const createOrganiserController = async(req, res, next) => {
         const dataObj = {
             name: name,
             email: email,
-            password: password
+            password: hashedPassword
         };
 
         const organiser = await createOrganiser(dataObj);
