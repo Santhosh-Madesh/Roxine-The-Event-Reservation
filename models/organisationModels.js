@@ -24,7 +24,7 @@ const retriveOrgByUserId = async(userId) => {
 
     try{
 
-        const organisationRequest = await organizationModel.findOne({user_id:userId});
+        const organisationRequest = await organizationModel.findOne({user_id:userId, status:"accepted"});
 
         return organisationRequest;
 
