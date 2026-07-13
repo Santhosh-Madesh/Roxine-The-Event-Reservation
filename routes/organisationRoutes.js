@@ -25,4 +25,5 @@ router.post("/request", authenticateUser, bodyValidatorMiddleware(organisationRe
 router.get("/request/status", authenticateUser, organisationStatusController);
 router.put("/request/update", authenticateUser, authorizeAdmin, bodyValidatorMiddleware(orgReqUpdateValidation), updateOrganisationRequest);
 
+
 module.exports = router;
