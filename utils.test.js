@@ -1,7 +1,9 @@
 const generateBill = require("./utils/generateBill");
 
 
-test("should return undefined when no of tickets is a string", ()=>{
+describe("TESTING GeneratBill util function", ()=>{
+    
+    test("should return undefined when no of tickets is a string", ()=>{
     expect(generateBill("hello", 200, 100, 100)).toBe(undefined);
 })
 
@@ -46,4 +48,7 @@ test("should return undefined when no argument is given at all", ()=>{
 test("should return undefined when payment status is neither not paid nor paid", ()=>{
     expect(generateBill(10, 100, 20, 30, "hola comosta")).toBe(undefined);
 })
+})
+
+
 
